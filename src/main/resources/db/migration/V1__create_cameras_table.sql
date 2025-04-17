@@ -1,0 +1,7 @@
+CREATE TABLE cameras (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    latitude DOUBLE PRECISION NOT NULL,
+    longitude DOUBLE PRECISION NOT NULL,
+    video_url TEXT NOT NULL
+);

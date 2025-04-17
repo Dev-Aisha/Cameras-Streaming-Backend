@@ -1,0 +1,1 @@
+ALTER TABLE cameras RENAME COLUMN video_url TO stream_url;
