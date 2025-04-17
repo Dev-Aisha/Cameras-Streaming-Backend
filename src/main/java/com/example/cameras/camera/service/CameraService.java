@@ -40,10 +40,10 @@ public class CameraService {
     String outputDir = "src/main/resources/static/hls/camera-" + cameraId;
     String outputFile = outputDir + "/stream.m3u8";
 
- 
+    // Create output directory if it doesn't exist
     new File(outputDir).mkdirs();
 
-    // FFmpeg
+    // Convert RTSP stream to HLS format using FFmpeg
     ProcessBuilder builder = new ProcessBuilder(
         "ffmpeg",
         "-i", rtspUrl,

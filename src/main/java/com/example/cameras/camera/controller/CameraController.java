@@ -33,6 +33,7 @@ public class CameraController {
         return cameraService.createCamera(camera);
     }
 
+    //TODO
     @GetMapping("/search")
     public List<Camera> getCamerasByName(@RequestParam String name){
         return cameraService.getCamerasByName(name);
