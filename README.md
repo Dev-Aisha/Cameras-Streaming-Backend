@@ -1,11 +1,15 @@
 #  Cameras Streaming Backend 🎥🎦
 
 This is the backend service for the **Cameras Streaming Web Application**.  
-It provides APIs to:
 
-- Get all available cameras
-- Convert RTSP camera streams to HLS format
-- Return the generated HLS URL to the frontend
+---
+
+## 🚀 Features
+
+- Add and retrieve camera data from PostgreSQL
+- Convert RTSP stream URLs to HLS using FFmpeg
+- Expose RESTful APIs for camera list and HLS stream URL
+- Dockerized: Run app and DB with Docker
 
 ---
 
@@ -17,8 +21,50 @@ It provides APIs to:
 - **Flyway** (for database migration)
 - **FFmpeg** (to convert RTSP to HLS)
 - **Gradle** (build tool)
+- **Docker & Docker Compose**
 
 ---
+
+## 📁 Project Structure
+
+```
+📦 cameras-backend/
+├── src/
+│   └── main/java/com/example/cameras/...
+├── Dockerfile
+├── docker-compose.yml
+├── build.gradle
+└── README.md
+```
+
+---
+
+## 🐳 Run with Docker
+
+### ✅ Prerequisites
+- [Docker Desktop](https://www.docker.com/products/docker-desktop) installed
+
+### 🔄 Steps
+
+1. Build the `.jar` file:
+
+```bash
+./gradlew build
+```
+
+2. Run using Docker Compose:
+
+```bash
+docker-compose up --build
+```
+
+This will:
+- Start the Spring Boot app on `localhost:8080`
+- Start PostgreSQL on internal port `5432`
+- Create the DB and run Flyway migrations
+
+---
+
 
 ##  How to Run the Project Locally 🚀
 
@@ -66,32 +112,18 @@ spring.flyway.locations=classpath:db/migration
 
 ---
 
-## 🎞 Streaming with FFmpeg
+## 📬 API Endpoints
 
-We use **FFmpeg** to convert `rtsp://` links into `.m3u8` HLS format.
+| Method | Endpoint                | Description                        |
+|--------|-------------------------|------------------------------------|
+| GET    | `/api/cameras`          | Get all cameras                    |
+| POST   | `/api/cameras`          | Add a new camera                   |
+| GET    | `/api/cameras/streamUrl?id={id}` | Get converted HLS stream URL by camera ID |
 
-Install FFmpeg:
-
-```bash
-brew install ffmpeg
-```
-
-When the API `/streamUrl` is called, FFmpeg generates `.m3u8` + `.ts` files  
-and stores them in the following path:
-
-```
-src/main/resources/static/hls/
-```
 
 ---
 
 ## 🔗 Example API Endpoints
-
-### ➤ Get all cameras
-
-```
-GET /api/cameras
-```
 
 ### ➤ Get HLS stream for a camera
 
@@ -109,6 +141,24 @@ GET /api/cameras/streamUrl?id=1
 
 You can now use this URL in your frontend `<video>` element.
 
+### ➤ POST Request (Add Camera)
+
+```http
+POST http://localhost:8080/api/cameras
+Content-Type: application/json
+```
+
+**Sample Response:**
+
+```json
+{
+  "name": "Main Gate",
+  "latitude": 24.7136,
+  "longitude": 46.6753,
+  "streamUrl": "rtsp://rtspstream:k8r83xMlPTYZ4RzaLqGiH@zephyr.rtsp.stream/pattern"
+}
+```
+
 
 **Screenshots:**
 <img width="1470" alt="Screenshot 1446-10-19 at 11 32 27 AM" src="https://github.com/user-attachments/assets/bfc5393d-1726-4f55-ac06-f8c2bcc3c1ca" />
@@ -121,19 +171,22 @@ You can now use this URL in your frontend `<video>` element.
 
 ---
 
-## 🧪 Example Camera Record
+## 🎞 Streaming with FFmpeg
 
-Insert a camera into your database to test:
+We use **FFmpeg** to convert `rtsp://` links into `.m3u8` HLS format.
 
-```sql
-INSERT INTO cameras (name, latitude, longitude, stream_url) VALUES (
-  'Test Camera',
-  24.7136,
-  46.6753,
-  'rtsp://rtspstream:k8r83xMlPTYZ4RzaLqGiH@zephyr.rtsp.stream/traffic'
-);
+Install FFmpeg:
+
+```bash
+brew install ffmpeg
 ```
 
+When the API `/streamUrl` is called, FFmpeg generates `.m3u8` + `.ts` files  
+and stores them in the following path:
+
+```
+src/main/resources/static/hls/
+```
 ---
 
 ## 📂 HLS Output
