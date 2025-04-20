@@ -58,7 +58,7 @@ public class CameraService {
     builder.redirectErrorStream(true);
     Process process = builder.start();
 
-    return "/hls/camera-" + cameraId + "/stream.m3u8";
+    return "https://cameras-streaming-backend-production.up.railway.app/hls/camera-" + cameraId + "/stream.m3u8";
 }
 
 }
