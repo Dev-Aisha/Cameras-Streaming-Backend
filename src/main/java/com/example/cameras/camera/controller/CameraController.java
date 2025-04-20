@@ -12,6 +12,9 @@ import java.util.Map;
 import java.util.HashMap;
 
 import java.util.List;
+import com.example.cameras.camera.dto.CameraRequest;
+import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/api/cameras")
@@ -29,9 +32,14 @@ public class CameraController {
     }
 
     @PostMapping
-    public Camera createCamera(@RequestBody Camera camera){
-        return cameraService.createCamera(camera);
-    }
+    public Camera createCamera(@RequestBody @Valid CameraRequest request) {
+    Camera camera = new Camera();
+    camera.setName(request.getName());
+    camera.setLatitude(request.getLatitude());
+    camera.setLongitude(request.getLongitude());
+    camera.setStreamUrl(request.getStreamUrl());
+    return cameraService.createCamera(camera);
+}
 
     //TODO
     @GetMapping("/search")
