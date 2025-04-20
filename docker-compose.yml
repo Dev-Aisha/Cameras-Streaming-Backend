@@ -12,6 +12,8 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/camerasdb
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: admin123
+    volumes:
+      - ./hls:/app/hls
     networks:
       - cameras-network
 

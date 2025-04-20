@@ -37,7 +37,7 @@ public class CameraService {
     public String convertRtspToHls(Camera camera) throws IOException {
     String cameraId = camera.getId().toString();
     String rtspUrl = camera.getStreamUrl();
-    String outputDir = "src/main/resources/static/hls/camera-" + cameraId;
+    String outputDir = "/app/hls/camera-" + cameraId;
     String outputFile = outputDir + "/stream.m3u8";
 
     // Create output directory if it doesn't exist
@@ -57,7 +57,6 @@ public class CameraService {
 
     builder.redirectErrorStream(true);
     Process process = builder.start();
-
 
     return "/hls/camera-" + cameraId + "/stream.m3u8";
 }
