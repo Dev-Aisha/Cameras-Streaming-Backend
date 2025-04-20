@@ -16,7 +16,6 @@ public class CameraRequest {
     private Double longitude;
 
     @NotBlank(message = "Stream URL is required")
-    @URL(message = "Stream URL must be a valid URL")
     private String streamUrl;
 
     // Getters & Setters
